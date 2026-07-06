@@ -9,22 +9,29 @@ on:                       # eventos que dispara el workflow
 
   workflow_dispatch:      # permite ejecutar el workflow manualmente desde la pestaña Actions o UI
 
+# Variables a nivel del workflow
+env: 
+  NODE_VERSION: "20"
+  APP_NAME: cron-ticker
+
 jobs:                     # define los jobs que se ejecutaran en el workflow
-  run-test:                           # nombre del job
-    name: Run Tests                   # nombre visible del job
-    runs-on: ubuntu-latest            # tipo de runner, define el sistema operativo donde se ejecutara el job
+  
+  build:
+    runs-on: ubuntu-latest
 
-    steps:                            # define los pasos que se ejecutaran en el job, pasos en orden secuencial
-      - name: Checkout Code           # nombre visible del paso
-        uses: actions/checkout@v3     # acción que hace checkout del código fuente del repositorio, clona el repo en el runner
+    # Variables a nivel del job
+    env:
+      BUILD_DIR: dist
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3   # instala Node.js en el runner
-        with:
-          node-version: '20'          # versión de Node.js a instalar
-      
-      - name: Install Dependencies    # instalar dependencias del proyecto
-        run: npm ci                   # comando para instalar dependencias usando npm
+    steps:
+      - uses: actions/checkout@v3
 
-      - name: Run Tests               # ejecutar pruebas unitarias
-        run: npm test                 # comando para ejecutar pruebas unitarias usando npm
+      - name: Show Variables
+        run: |
+          echo "App: ${{ env.APP_NAME }}, Node: ${{ env.NODE_VERSION }}"
+          
+      # Variables a nivel del step
+      - name: Build 
+        run: npm run build
+        env:
+          APP_VERSION: '2.0.0'
