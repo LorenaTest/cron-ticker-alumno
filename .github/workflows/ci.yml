@@ -34,6 +34,11 @@ jobs:                     # define los jobs que se ejecutaran en el workflow
         run: |
           echo "App Version: ${{ vars.APP_VERSION}}"
           
+      - name: Show Github Variables Node
+        run: |
+          echo "Node Version: ${{ vars.NODE_VERSION}}"
+          
+
       # Variables a nivel del step
       - name: Build 
         run: npm run build
