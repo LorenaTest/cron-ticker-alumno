@@ -20,12 +20,12 @@ jobs:
         node-version: [18, 20, 22] # versiones de node a testear
       fail-fast: false # si un job falla, no detiene los demás
 
-      steps:
-        - uses: actions/checkout@v4
-        - name: Setup Node Js ${{matrix.node-version}}
-          uses: actions/setup-node@v4
-          with:
-            node-version: ${{matrix.node-version}}
-            cache: 'npm'
-        - run: npm ci
-        - run: npm test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node Js ${{matrix.node-version}}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{matrix.node-version}}
+          cache: 'npm'
+      - run: npm ci
+      - run: npm test
