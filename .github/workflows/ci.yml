@@ -15,23 +15,26 @@ env:
 
 jobs:                     
 
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
+  build:                  # nombre del job
+    name: Build
+    runs-on: ubuntu-latest # sistema operativo donde se ejecutará el job
+
+    steps:                # pasos a ejecutar en el job
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-      - run: npm ci
-      - name: Run tests with coverage
-        run: npm run test:coverage
 
-      - name: Upload coverage report
+      - run: npm ci
+      - name: Build app
+        run: npm run build
+        env:
+          APP_VERSION: ${{ vars.APP_VERSION || '1.0.0' }} # variable de entorno para la versión de la app
+
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
-        if: always()
         with:
-          name: coverage-{{github.sha}}
-          path: coverage/
+          name: build-${{github.sha}}
+          path: dist/
           retention-days: 7
