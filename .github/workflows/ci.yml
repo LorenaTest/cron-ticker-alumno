@@ -41,6 +41,10 @@ jobs:                     # define los jobs que se ejecutaran en el workflow
       - name: Deploy API
         run: |
           echo "Deploying with key ${{ secrets.API_KEY }}"
+
+      - name: Deploy Authentication
+        run: |
+          echo "Deploying Authentication with key ${{ secrets.AUTH_KEY }}"
           
       # Variables a nivel del step
       - name: Build 
