@@ -38,7 +38,10 @@ jobs:                     # define los jobs que se ejecutaran en el workflow
         run: |
           echo "Node Version: ${{ vars.NODE_VERSION}}"
           
-
+      - name: Deploy API
+        run: |
+          echo "Deploying with key ${{ secrets.API_KEY }}"
+          
       # Variables a nivel del step
       - name: Build 
         run: npm run build
